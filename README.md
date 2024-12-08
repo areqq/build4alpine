@@ -27,3 +27,22 @@ Zbudowanie na jeden system
 Jest możliwość budowania pod arm/aarch64 za pomocą QEMU. Nie jest szybkie, ale w kilka minut się zbuduje.
 
 ./setup-qemu.sh  - Pobierze i skonfiguruje QEMU
+
+#Natywne budowane na ARM
+
+Można zrobic to np na VU+ uno4kse z dyskiem ;) Albo na innym Raspberry Pi
+
+mkdir -p /hdd/aq/alpine
+cd /hdd/aq/alpine
+wget https://raw.githubusercontent.com/areqq/build4alpine/refs/heads/main/get.sh -O - | sh
+
+cd build4alpine
+w vars.conf ustawiamy:
+ARCHS="armv7"
+BASE_DIR="/hdd/aq/alpine"
+
+./update-oscam-from-git.sh - pobieramy źródła oscam z git
+./setup-chroots-alpine.sh  - przygotuje nam chroot dla armv7 w /hdd/aq/alpine/alpine-armv7
+
+./build-all.sh - uruchamiamy budowanie
+

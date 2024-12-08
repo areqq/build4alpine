@@ -22,13 +22,13 @@ Zbudowanie na jeden system
 ./build-all.sh  - buduje na wszystkich dostępnych chroot
 
 
-#QEMU
+# QEMU
 
 Jest możliwość budowania pod arm/aarch64 za pomocą QEMU. Nie jest szybkie, ale w kilka minut się zbuduje.
 
 ./setup-qemu.sh  - Pobierze i skonfiguruje QEMU
 
-#Natywne budowane na ARM
+# Natywne budowane na ARM
 
 Można zrobic to np na VU+ uno4kse z dyskiem ;) Albo na innym Raspberry Pi
 

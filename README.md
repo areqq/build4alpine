@@ -48,3 +48,8 @@ BASE_DIR="/hdd/aq/alpine"
 
 ./build-all.sh - uruchamiamy budowanie
 ```
+
+Po kilku minutach:
+```
+oscam-2.24.12-11857@-armv7-alpine-linux-musleabihf-ssl-libusb-pcsc-libdvbcsa saved in /hdd/aq/alpine/bins
+```

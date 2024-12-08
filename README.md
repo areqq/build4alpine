@@ -4,7 +4,7 @@ Zestaw skrytów pomocniczych w budowaniu w chroot na różne systemy i architekt
 
 Konfiguracja w vars.conf - zaznacz tam architektury które Cię interesują.
 
-Chroot zawieraja minimaly system + biblioteki do poprawnego znbudowania pełnej wersji oscam.
+Chroot zawieraja minimaly system + biblioteki do poprawnego zbudowania pełnej wersji oscam.
 Budowanie będzie odbywać się z usera build w jego /home/build
 Wynikowe pliki binarne zapiszą się w OUTPUT_BIN_DIR
 

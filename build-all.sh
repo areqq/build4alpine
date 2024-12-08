@@ -13,6 +13,6 @@ do
     CHROOT=${r%/ready}
     CHROOT=${CHROOT##*/}
     cd $MYDIR
-    echo $green --- $CHROOT --- $reset
+    echo -e $green --- $CHROOT --- $reset
     ./build-in-chroot.sh $CHROOT $OSCAM_SRC_DIR ./build.sh
 done

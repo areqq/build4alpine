@@ -20,3 +20,10 @@ Zbudowanie na jeden system
 ./build-in-chroot.sh alpine-x86 /tmp/alpine/oscam-src ./build.sh
 
 ./build-all.sh  - buduje na wszystkich dostępnych chroot
+
+
+#QEMU
+
+Jest możliwość budowania pod arm/aarch64 za pomocą QEMU. Nie jest szybkie, ale w kilka minut się zbuduje.
+
+./setup-qemu.sh  - Pobierze i skonfiguruje QEMU

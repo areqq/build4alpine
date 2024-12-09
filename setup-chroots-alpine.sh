@@ -5,6 +5,20 @@
 
 . "${0%/*}/vars.conf"
 
+if [ $# -eq 0 ]; then
+    echo $0 - Build Alpine Linux chroot in ${BASE_DIR}
+    echo Example:
+    echo $0 x86 x86_64   - create chroot for x86 and x86_64 arch
+    echo $0 all          - create chroots for $ARCHS
+    exit
+fi
+
+if [ "$1" = "all" ] ; then
+    ARCHS="x86 x86_64 armv7 aarch64 armhf"
+else
+    ARCHS=$@
+fi
+
 ALPINE_VER=$(wget http://dl-cdn.alpinelinux.org/latest-stable/releases/x86_64/latest-releases.yaml -O - 2> /dev/null | awk '/version:/{v=$2}END{print v}')
 
 for SETARCH in $ARCHS

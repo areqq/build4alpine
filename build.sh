@@ -9,7 +9,7 @@ set -e
 [ $(id -un) = "root" ] && exit
 
 cd /home/build/
-PATH=/bin:/usr/bin
+PATH=/bin:/usr/bin:/usr/local/bin
 
 BUILD_ARCH=$(gcc -dumpmachine | awk -F '-' '{print $1}')
 echo -e "\033[1;33mBUILD_ARCH: $BUILD_ARCH \033[0m"
@@ -31,13 +31,18 @@ STATIC='EXTRA_FLAGS=-static EXTRA_TARGET=-static LIBUSB_LIB=/usr/lib/libusb-1.0.
 [ "$BUILD_ARCH" = "aarch64" ] && ./config.sh --enable WITH_ARM_NEON
 
 make USE_LIBUSB=1 USE_PCSC=1 DEFAULT_PCSC_FLAGS="-I/usr/include/PCSC" CONF_DIR=/etc/oscam
-make USE_LIBUSB=1 USE_PCSC=1 DEFAULT_PCSC_FLAGS="-I/usr/include/PCSC" CONF_DIR=/etc/oscam $STATIC
 
-if [ "$BUILD_ARCH" = "armhf" -o "$BUILD_ARCH" = "armv7" -o "$BUILD_ARCH" = "armv6" ]; then
-    ./config.sh --enable WITH_ARM_NEON
-    make USE_LIBUSB=1 USE_PCSC=1 DEFAULT_PCSC_FLAGS="-I/usr/include/PCSC" CONF_DIR=/etc/oscam EXTRA_TARGET="-neon"
-    make USE_LIBUSB=1 USE_PCSC=1 DEFAULT_PCSC_FLAGS="-I/usr/include/PCSC" CONF_DIR=/etc/oscam $STATIC EXTRA_TARGET="-neon-static"
+if [ -f /usr/lib/libusb-1.0.a -a -f /usr/lib/libcrypto.a -a -f /usr/lib/libssl.a -a -f /usr/lib/libpcsclite.a ] ; then
+    make USE_LIBUSB=1 USE_PCSC=1 DEFAULT_PCSC_FLAGS="-I/usr/include/PCSC" CONF_DIR=/etc/oscam $STATIC
+else
+    echo "$red Brakuje statycznych libów. Omijam budowanie -static $reset"
 fi
+
+#if [ "$BUILD_ARCH" = "armhf" -o "$BUILD_ARCH" = "armv7" -o "$BUILD_ARCH" = "armv6" ]; then
+#    ./config.sh --enable WITH_ARM_NEON
+#    make USE_LIBUSB=1 USE_PCSC=1 DEFAULT_PCSC_FLAGS="-I/usr/include/PCSC" CONF_DIR=/etc/oscam EXTRA_TARGET="-neon"
+#    make USE_LIBUSB=1 USE_PCSC=1 DEFAULT_PCSC_FLAGS="-I/usr/include/PCSC" CONF_DIR=/etc/oscam $STATIC EXTRA_TARGET="-neon-static"
+#fi
 
 
 ls -t $CHROOT_DIR/home/build/Distribution/oscam* | grep -v '\.debug$' | while read f

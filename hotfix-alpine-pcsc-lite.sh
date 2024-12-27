@@ -14,7 +14,7 @@ fix_chroot()
 
         if [ -f $CHROOT/usr/include/PCSC/pcsclite.h ] ; then 
             PCSCLITE_VERSION=$(awk -F '"' '/PCSCLITE_VERSION_NUMBER/{print $2}' $CHROOT/usr/include/PCSC/pcsclite.h)
-            if [ "$PCSCLITE_VERSION" = "2.0.0" ] ; then
+            if [ "$PCSCLITE_VERSION" = "2.3.1" ] ; then
                 echo -e "${green}OK: $CHROOT pcsc-lite already downgraded PCSCLITE_VERSION: $PCSCLITE_VERSION $reset"
                 return
             else
@@ -23,7 +23,7 @@ fix_chroot()
         fi
 
         ARCH=$(cat $CHROOT/etc/apk/arch)
-        REPO="https://dl-cdn.alpinelinux.org/alpine/v3.19/main/$ARCH/"
+        REPO="https://dl-cdn.alpinelinux.org/alpine/edge/main/$ARCH/"
         echo -e $green --- $CHROOT --- $reset
         echo -e REPO: $REPO
 
@@ -31,7 +31,7 @@ fix_chroot()
 
         for pkg in $PCSC_PKGS
         do
-            APK="${pkg}-2.0.0-r2.apk"
+            APK="${pkg}-2.3.1-r0.apk"
             wget -o /dev/null "${REPO}${APK}" -O $CHROOT/tmp/${APK}
         done
 
@@ -40,10 +40,10 @@ fix_chroot()
 
         PCSCLITE_VERSION=$(awk -F '"' '/PCSCLITE_VERSION_NUMBER/{print $2}' $CHROOT/usr/include/PCSC/pcsclite.h)
 
-        if [ "$PCSCLITE_VERSION" = "2.0.0" ] ; then
-            echo -e "$green${CHROOT} pcsc-lite downgraded successfully PCSCLITE_VERSION: $PCSCLITE_VERSION $reset"
+        if [ "$PCSCLITE_VERSION" = "2.3.1" ] ; then
+            echo -e "$green${CHROOT} pcsc-lite reinstalled successfully PCSCLITE_VERSION: $PCSCLITE_VERSION $reset"
         else
-            echo -e "$red${CHROOT} pcsc-lite downgrade problem: PCSCLITE_VERSION: $PCSCLITE_VERSION $reset"
+            echo -e "$red${CHROOT} pcsc-lite reinstall problem: PCSCLITE_VERSION: $PCSCLITE_VERSION $reset"
         fi
 
         echo -e $reset
@@ -61,4 +61,4 @@ do
     fix_chroot $DIR
 done
 
-# pcsc-lite > 2.0.3 has problem with static build, so we need downgrade
+# pcsc-lite > 2.0.3 has problem with static build, so we need downgrade or upgrade to 2.3.1
